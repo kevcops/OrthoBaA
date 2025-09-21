@@ -18,7 +18,7 @@ Built with **PySide6**, **Pillow**, and **ReportLab**.
 ---
 
 ## 📸 Screenshots
-> _(Add screenshots here after you build the app)_  
+<img src="https://github.com/kevcops/OrthoBaA/blob/main/OrthoBaA%20Screenshot.png?raw=true">
 
 ---
 
