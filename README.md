@@ -1,71 +1,50 @@
-# IPA Fixer – Before & After PDF Tool
 
-This is a simple **drag-and-drop desktop app** for creating printable *Before & After* comparison PDFs of orthodontic or dental images.  
-Built with **PySide6**, **Pillow**, and **ReportLab**.
+# IPA Fixer – Before & After (Qt)
 
----
+Drag-and-drop desktop app for creating printable **Before & After** comparisons as **PDF** or **JPEG**.  
+Optional per-image crop, batch mode, preview, status bar, and config persistence.
 
-## ✨ Features
-- Drag & drop one image into the **Before** pane, another into the **After** pane.
-- Optional **per-image crop**:
-  - Crop from the top, then finalize with a bottom-anchored height.
-- Export to a **single-page, landscape PDF** (8.5" × 11").
-- Images are scaled to **85% of their fit size** and centered.
-- Default output directory:  
-  `~/Documents/IPA Fixer/Before and After/`
-- Suggested filename: `Before_vs_After.pdf` (editable).
+## Features
+- Drag & drop **Before** (left) and **After** (right)
+- **Optional crop** per image (top-crop + bottom-anchored final height)
+- Export **PDF** (landscape letter) or **side-by-side JPEG**
+- **Preview** opens the exported file automatically
+- **Batch mode**: process a folder of pairs (`*_before.*` + `*_after.*` or alphabetic pairing)
+- **Status bar + progress**
+- Remembers last output folder and format (`~/.config/ortho_baa/config.json`)
+- Extra formats: **HEIC/AVIF/WEBP** (via `pillow-heif`)
 
----
-
-## 📸 Screenshots
-<img src="https://github.com/kevcops/OrthoBaA/blob/main/OrthoBaA%20Screenshot.png?raw=true">
-
----
-
-## 🛠️ Installation
-
-### 1. Clone the repo
-```bash
-git clone https://github.com/<your-username>/<your-repo>.git
-cd <your-repo>
-```
-
-### 2. Install dependencies
-Make sure you have **Python 3.10+** installed. Then run:
-
+## Install & Run
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-
-# Install required packages
 python3 -m pip install --upgrade pip
-python3 -m pip install PySide6 Pillow reportlab
+python3 -m pip install -r requirements.txt
+
+python3 -m ortho_baa.main
+# or: python3 ortho_baa/main.py
 ```
 
-On **Fedora/Linux**, you may also need Qt runtime libraries if you don’t already have them:
+## Build one-click apps (local)
+### Windows
+```bat
+build_win.bat
+```
+Artifacts: `dist\OrthoBaA.exe`
 
+### macOS
 ```bash
-sudo dnf install -y qt6-qtbase-gui qt6-qtwayland   libxkbcommon-x11 xcb-util xcb-util-keysyms xcb-util-wm   xcb-util-image xcb-util-renderutil
+chmod +x build_mac.sh
+./build_mac.sh
 ```
+Artifacts: `dist/OrthoBaA.app` and `dist/OrthoBaA-macOS.zip`
 
----
-
-## ▶️ Usage
-
-Run the app from the project directory:
-
+## CI (GitHub Actions)
+Tag a release to build and attach binaries:
 ```bash
-python3 OrthoBaA.py
+git tag v0.1.0
+git push origin v0.1.0
 ```
 
-- Drag your images into the Before/After panes.
-- (Optional) check **Crop this image** and adjust Top/Bottom crop values.
-- Choose your output folder and filename.
-- Click **Save PDF**.
-
-The resulting PDF will be ready in your chosen directory.
-
----
-
-## 📄 License
-MIT License. See [LICENSE](LICENSE) for details.
+## License
+MIT

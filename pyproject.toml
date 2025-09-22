@@ -1,0 +1,12 @@
+
+[project]
+name = "ortho-baa"
+version = "0.1.0"
+description = "Before & After PDF/JPEG creator with optional crop and batch mode"
+requires-python = ">=3.10"
+dependencies = [
+  "PySide6",
+  "Pillow",
+  "reportlab",
+  "pillow-heif",
+]
