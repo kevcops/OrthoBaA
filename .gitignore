@@ -1,1 +1,2 @@
-<paste the contents above>
+# Ignore legacy workflow for now
+.github/workflows/build.yml
