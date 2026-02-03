@@ -1,12 +1,14 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "ortho-baa"
-version = "0.1.0"
+version = "0.4.0"
 description = "Before & After PDF/JPEG creator with optional crop and batch mode"
+readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [
-  "PySide6",
-  "Pillow",
-  "reportlab",
-  "pillow-heif",
-]
+dependencies = ["PySide6", "Pillow", "reportlab", "pillow-heif"]
+
+[tool.setuptools]
+packages = ["ortho_baa"]

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <style>
+    .s{fill:none;stroke:currentColor;stroke-width:8}
+    .f{fill:currentColor}
+  </style>
+  <!-- grid -->
+  <g class="s">
+    <rect x="26" y="26" width="56" height="56" rx="10"/>
+    <rect x="100" y="26" width="56" height="56" rx="10"/>
+    <rect x="174" y="26" width="56" height="56" rx="10"/>
+    <rect x="26" y="100" width="56" height="56" rx="10"/>
+    <rect x="100" y="100" width="56" height="56" rx="10"/>
+    <rect x="174" y="100" width="56" height="56" rx="10"/>
+    <rect x="26" y="174" width="56" height="56" rx="10"/>
+    <rect x="100" y="174" width="56" height="56" rx="10"/>
+    <rect x="174" y="174" width="56" height="56" rx="10"/>
+  </g>
+  <!-- phone -->
+  <rect class="f" x="79" y="55" width="98" height="146" rx="18"/>
+  <!-- lenses -->
+  <circle class="f" cx="104" cy="81" r="6"/>
+  <circle class="f" cx="120" cy="92" r="6"/>
+  <circle class="f" cx="112" cy="106" r="6"/>
+  <!-- flash -->
+  <path class="s" d="M98 62 l6 10 l12 -2 l-8 8 l6 10 l-12 -4 l-8 8 l0 -12 l-12 -4 l12 -2 z"/>
+</svg>

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=IPA Fixer
+Exec=ipa-fixer
+Icon=ipa-fixer
+Categories=Graphics;Medical;
+Terminal=false

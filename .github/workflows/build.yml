@@ -1,59 +1,32 @@
 
 name: build-and-release
-
 on:
   push:
-    tags:
-      - 'v*.*.*'   # e.g. v0.1.0
-
+    tags: ['v*.*.*']
 jobs:
   build:
     strategy:
-      matrix:
-        os: [windows-latest, macos-latest]
+      matrix: { os: [windows-latest, macos-latest] }
     runs-on: ${{ matrix.os }}
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install deps
-        run: |
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
           python -m pip install pyinstaller
-
-      - name: Build (PyInstaller)
-        shell: bash
+      - shell: bash
         run: |
           if [ "$RUNNER_OS" = "Windows" ]; then
             pyinstaller --noconfirm --onefile --windowed --name OrthoBaA -p . ortho_baa\main.py
             echo "ASSET_PATH=dist/OrthoBaA.exe" >> $GITHUB_ENV
           else
             pyinstaller --noconfirm --windowed --name OrthoBaA ortho_baa/main.py
-            # Zip the .app so GitHub treats it as a single file
             ditto -c -k --sequesterRsrc --keepParent "dist/OrthoBaA.app" "dist/OrthoBaA-macOS.zip"
             echo "ASSET_PATH=dist/OrthoBaA-macOS.zip" >> $GITHUB_ENV
           fi
-
-      - name: Upload artifact (CI browsing)
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ runner.os }}-build
-          path: ${{ env.ASSET_PATH }}
-
-      - name: Attach to GitHub Release
-        uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: ${{ env.ASSET_PATH }}
-          name: ${{ github.ref_name }}
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with: { files: ${{ env.ASSET_PATH }} }
+        env: { GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} }

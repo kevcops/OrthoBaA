@@ -1,0 +1,50 @@
+name: Build AppImage
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install system deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libfuse2
+
+      - name: Install appimagetool
+        run: |
+          curl -L -o /tmp/appimagetool.AppImage \
+            https://github.com/AppImage/AppImageKit/releases/latest/download/appimagetool-x86_64.AppImage
+          chmod +x /tmp/appimagetool.AppImage
+          sudo mv /tmp/appimagetool.AppImage /usr/local/bin/appimagetool
+
+      - name: Build AppImage
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          ./build_appimage.sh
+
+      - name: Upload AppImage (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ipa-fixer-appimage
+          path: build/appimage/*.AppImage
+          if-no-files-found: error
+
+      - name: Attach AppImage to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/appimage/*.AppImage
