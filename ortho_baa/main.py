@@ -7,7 +7,7 @@ from PySide6.QtGui import QDesktopServices
 from .ui import MainWindow
 from .config import load_config, save_config
 from .logic import load_image, CropParams, crop_top_then_bottom, guess_pairs_in_folder
-from .exporters import export_pdf, export_jpeg
+from .exporters import export_pdf, export_jpeg, compose_preview_image
 from .utils import suggest_output_basename_from_two_with_prefs
 
 def open_file(path: Path) -> None:
@@ -92,6 +92,13 @@ def run_app():
 
         win.status.showMessage("Exporting…"); win.progress.setValue(10); app.processEvents()
         scale = float(cfg.get("scale_factor", 0.85))
+
+        if preview:
+            img = compose_preview_image(b_img, a_img, scale_factor=scale)
+            win.progress.setValue(100); win.status.showMessage("Preview ready.")
+            win.show_preview(img)
+            return
+
         if fmt == "PDF":
             out_file = export_pdf(out_path, b_img, a_img, scale_factor=scale)
         else:
@@ -100,7 +107,6 @@ def run_app():
         win.progress.setValue(100); win.status.showMessage(f"Saved to: {out_file}")
         try: win.open_folder_btn.setEnabled(True)
         except Exception: pass
-        if preview: QTimer.singleShot(50, lambda: open_file(out_file))
 
         cfg["last_out_dir"] = str(out_dir); cfg["output_format"] = fmt; cfg["name_parts"] = current_name_prefs(); save_config(cfg)
 

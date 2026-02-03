@@ -8,7 +8,7 @@ from PySide6.QtGui import QPixmap, QImage, QIcon, QDesktopServices
 from PySide6.QtWidgets import (
     QWidget, QMainWindow, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
     QFileDialog, QGroupBox, QLineEdit, QMessageBox, QFrame, QCheckBox, QSpinBox,
-    QComboBox, QStatusBar, QProgressBar
+    QComboBox, QStatusBar, QProgressBar, QDialog, QScrollArea
 )
 
 from .utils import to_rgba
@@ -191,6 +191,28 @@ class MainWindow(QMainWindow):
         self.save_btn.clicked.connect(self.saveRequested.emit)
         self.preview_btn.clicked.connect(self.previewRequested.emit)
         self.batch_btn.clicked.connect(self.batchRequested.emit)
+        self._preview_dialog: QDialog | None = None
+
+    def show_preview(self, img: Image.Image) -> None:
+        if self._preview_dialog is None:
+            dlg = QDialog(self)
+            dlg.setWindowTitle("Preview")
+            dlg.setMinimumSize(900, 700)
+            dlg_layout = QVBoxLayout(dlg)
+            scroll = QScrollArea()
+            scroll.setWidgetResizable(True)
+            img_label = QLabel()
+            img_label.setAlignment(Qt.AlignCenter)
+            scroll.setWidget(img_label)
+            dlg_layout.addWidget(scroll)
+            dlg._img_label = img_label  # type: ignore[attr-defined]
+            self._preview_dialog = dlg
+
+        label = self._preview_dialog._img_label  # type: ignore[attr-defined]
+        label.setPixmap(qpix_from_pil(img, 1400, 900))
+        self._preview_dialog.show()
+        self._preview_dialog.raise_()
+        self._preview_dialog.activateWindow()
 
     def _choose_out_dir(self):
         p = QFileDialog.getExistingDirectory(self, "Select output folder", self.out_dir.text().strip() or str(Path.home()))

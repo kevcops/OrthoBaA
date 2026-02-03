@@ -25,7 +25,7 @@ def export_pdf(out_path: Path, before: Image.Image, after: Image.Image, scale_fa
     c.drawImage(ImageReader(after.convert('RGB')),  ax, ay, width=fit_aw, height=fit_ah, preserveAspectRatio=True)
     c.showPage(); c.save(); return out_path
 
-def export_jpeg(out_path: Path, before: Image.Image, after: Image.Image, quality: int = 92, scale_factor: float = 0.85) -> Path:
+def compose_preview_image(before: Image.Image, after: Image.Image, scale_factor: float = 0.85) -> Image.Image:
     target_w, target_h = (3300, 2550)  # 11x8.5" at ~300dpi-ish landscape canvas
     margin = 90
     half_w = (target_w - (margin * 2)) // 2
@@ -37,13 +37,22 @@ def export_jpeg(out_path: Path, before: Image.Image, after: Image.Image, quality
         fw, fh = fit_rect(w, h, bw, bh)
         return int(fw * scale_factor), int(fh * scale_factor)
 
-    bw, bh = before.size; fw, fh = fit(bw, bh, half_w, draw_h)
-    bx = margin + (half_w - fw) // 2; by = margin + (draw_h - fh) // 2
+    bw, bh = before.size
+    fw, fh = fit(bw, bh, half_w, draw_h)
+    bx = margin + (half_w - fw) // 2
+    by = margin + (draw_h - fh) // 2
     canvas_img.paste(before.convert('RGB').resize((fw, fh), Image.LANCZOS), (bx, by))
 
-    aw, ah = after.size; fw2, fh2 = fit(aw, ah, half_w, draw_h)
-    ax = margin + half_w + (half_w - fw2) // 2; ay = margin + (draw_h - fh2) // 2
+    aw, ah = after.size
+    fw2, fh2 = fit(aw, ah, half_w, draw_h)
+    ax = margin + half_w + (half_w - fw2) // 2
+    ay = margin + (draw_h - fh2) // 2
     canvas_img.paste(after.convert('RGB').resize((fw2, fh2), Image.LANCZOS), (ax, ay))
 
-    out_path = out_path.with_suffix('.jpg'); canvas_img.save(out_path, 'JPEG', quality=quality, optimize=True)
+    return canvas_img
+
+def export_jpeg(out_path: Path, before: Image.Image, after: Image.Image, quality: int = 92, scale_factor: float = 0.85) -> Path:
+    canvas_img = compose_preview_image(before, after, scale_factor=scale_factor)
+    out_path = out_path.with_suffix('.jpg')
+    canvas_img.save(out_path, 'JPEG', quality=quality, optimize=True)
     return out_path
