@@ -3,5 +3,5 @@ Type=Application
 Name=IPA Fixer
 Exec=ipa-fixer
 Icon=ipa-fixer
-Categories=Graphics;Medical;
+Categories=Graphics;Office;
 Terminal=false
