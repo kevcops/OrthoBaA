@@ -38,10 +38,11 @@ jobs:
           FILE_OUT="$(file /tmp/appimagetool.AppImage)"
           echo "$FILE_OUT"
           echo "$FILE_OUT" | grep -qi "ELF" || (echo "Downloaded file is not an ELF/AppImage" >&2; head -c 200 /tmp/appimagetool.AppImage; exit 1)
-          (cd /tmp && ./appimagetool.AppImage --appimage-extract)
-          sudo mv /tmp/squashfs-root/AppRun /usr/local/bin/appimagetool
+          /tmp/appimagetool.AppImage --appimage-version || true
 
       - name: Build AppImage
+        env:
+          APPIMAGETOOL: /tmp/appimagetool.AppImage
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
