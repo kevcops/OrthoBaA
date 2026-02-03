@@ -36,10 +36,11 @@ sed -i "s/^Name=.*/Name=$APP_NAME/" "$APPDIR/$APP_ID.desktop"
 cp "$APPRUN_SRC" "$APPDIR/AppRun"
 chmod +x "$APPDIR/AppRun"
 
-if ! command -v appimagetool >/dev/null 2>&1; then
+APPIMAGETOOL="${APPIMAGETOOL:-appimagetool}"
+if ! command -v "$APPIMAGETOOL" >/dev/null 2>&1; then
   echo "appimagetool not found. Install it, then run:" >&2
   echo "  appimagetool $APPDIR" >&2
   exit 2
 fi
 
-appimagetool "$APPDIR"
+"$APPIMAGETOOL" "$APPDIR"
