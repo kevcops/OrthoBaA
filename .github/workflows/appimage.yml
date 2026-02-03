@@ -29,15 +29,15 @@ jobs:
       - name: Install appimagetool
         run: |
           set -euo pipefail
-          URL_PRIMARY="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-          URL_FALLBACK="https://github.com/AppImage/AppImageKit/releases/latest/download/appimagetool-x86_64.AppImage"
+          URL_PRIMARY="https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage"
+          URL_FALLBACK="https://github.com/AppImage/appimagetool/releases/latest/download/appimagetool-x86_64.AppImage"
 
           curl -fsSL --retry 3 --retry-delay 2 -o /tmp/appimagetool.AppImage "$URL_PRIMARY" || \
           curl -fsSL --retry 3 --retry-delay 2 -o /tmp/appimagetool.AppImage "$URL_FALLBACK"
           chmod +x /tmp/appimagetool.AppImage
           FILE_OUT="$(file /tmp/appimagetool.AppImage)"
           echo "$FILE_OUT"
-          echo "$FILE_OUT" | grep -qi "AppImage" || (echo "Downloaded file is not an AppImage" >&2; exit 1)
+          echo "$FILE_OUT" | grep -qi "ELF" || (echo "Downloaded file is not an ELF/AppImage" >&2; head -c 200 /tmp/appimagetool.AppImage; exit 1)
           (cd /tmp && ./appimagetool.AppImage --appimage-extract)
           sudo mv /tmp/squashfs-root/AppRun /usr/local/bin/appimagetool
 
