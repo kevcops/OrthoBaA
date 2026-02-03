@@ -148,7 +148,7 @@ class MainWindow(QMainWindow):
 
     def __init__(self, out_dir_default: Path, output_format_default: str = "PDF"):
         super().__init__()
-        self.setWindowTitle("IPA Fixer – Before & After")
+        self.setWindowTitle("Ortho Before and After")
         self.setWindowIcon(make_window_icon())
         self.resize(1080, 660)
 

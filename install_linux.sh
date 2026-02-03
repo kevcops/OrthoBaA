@@ -3,7 +3,7 @@
 set -euo pipefail
 
 APP_ID="ortho-baa"
-APP_NAME="IPA Fixer – Before & After"
+APP_NAME="Ortho Before and After"
 APP_DIR="${HOME}/.local/share/applications"
 BIN_DIR="${HOME}/.local/bin"
 ICON_DIR="${HOME}/.local/share/icons"

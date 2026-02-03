@@ -51,7 +51,7 @@ jobs:
       - name: Upload AppImage (artifact)
         uses: actions/upload-artifact@v4
         with:
-          name: ipa-fixer-appimage
+          name: ortho-before-and-after-appimage
           path: build/appimage/*.AppImage
           if-no-files-found: error
 

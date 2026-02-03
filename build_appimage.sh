@@ -2,7 +2,7 @@
 set -euo pipefail
 
 APP_ID="ipa-fixer"
-APP_NAME="IPA Fixer – Before & After"
+APP_NAME="Ortho Before and After"
 ICON_SRC="assets/Icons/ipa-fixer-dark-512.png"
 DESKTOP_SRC="assets/Icons/repo-snippets/ipa-fixer.desktop"
 APPRUN_SRC="assets/Icons/repo-snippets/AppRun"
@@ -17,7 +17,7 @@ python3 -m pip install --upgrade pyinstaller
 # Build standalone binary
 pyinstaller --noconfirm --onefile --windowed --name "$APP_ID" \
   --add-data "assets/Icons/ipa-fixer-dark-512.png:assets/Icons" \
-  ortho_baa/main.py
+  app.py
 
 OUT_DIR="build/appimage"
 APPDIR="$OUT_DIR/AppDir"

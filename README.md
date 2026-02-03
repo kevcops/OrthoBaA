@@ -1,5 +1,5 @@
 
-# IPA Fixer – Before & After (Qt)
+# Ortho Before and After (Qt)
 
 Drag-and-drop desktop app for creating printable **Before & After** comparisons as **PDF** or **JPEG**.
 
@@ -29,7 +29,7 @@ chmod +x install_linux.sh
 - Launcher → `~/.local/bin/ortho-baa`
 - Desktop entry → `~/.local/share/applications/ortho-baa.desktop`
 
-Open your launcher and search **IPA Fixer – Before & After**.
+Open your launcher and search **Ortho Before and After**.
 
 ## Usage
 1. Drag **Before** and **After** images.
