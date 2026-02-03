@@ -19,7 +19,8 @@ pyinstaller --noconfirm --onefile --windowed --name "$APP_ID" \
   --add-data "assets/Icons/ipa-fixer-dark-512.png:assets/Icons" \
   ortho_baa/main.py
 
-APPDIR="build/appimage/AppDir"
+OUT_DIR="build/appimage"
+APPDIR="$OUT_DIR/AppDir"
 rm -rf "$APPDIR"
 mkdir -p "$APPDIR/usr/bin" "$APPDIR/usr/share/icons/hicolor/512x512/apps"
 
@@ -45,12 +46,12 @@ if [ -z "${APPIMAGETOOL:-}" ]; then
 fi
 
 if [ -x "$APPIMAGETOOL" ]; then
-  "$APPIMAGETOOL" "$APPDIR"
+  "$APPIMAGETOOL" "$APPDIR" "$OUT_DIR/${APP_ID}.AppImage"
   exit 0
 fi
 
 if command -v "$APPIMAGETOOL" >/dev/null 2>&1; then
-  "$APPIMAGETOOL" "$APPDIR"
+  "$APPIMAGETOOL" "$APPDIR" "$OUT_DIR/${APP_ID}.AppImage"
   exit 0
 fi
 
